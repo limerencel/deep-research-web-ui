@@ -129,6 +129,7 @@ class ApiKeyPool {
 
 let apiKeyPool: ApiKeyPool | undefined
 let googleApiKeyPool: ApiKeyPool | undefined
+let youcomApiKeyPool: ApiKeyPool | undefined
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
@@ -267,7 +268,7 @@ function getOrCreateApiKeyPool(
   return next
 }
 
-function createServerWebSearch(runtimeConfig: RuntimeConfig): WebSearchFunction {
+export function createServerWebSearch(runtimeConfig: RuntimeConfig): WebSearchFunction {
   const search: WebSearchFunction = async (query: string, options: WebSearchOptions) => {
     const provider = runtimeConfig.public.webSearchProvider as ConfigWebSearchProvider
     const sharedConfig = {
@@ -308,6 +309,36 @@ function createServerWebSearch(runtimeConfig: RuntimeConfig): WebSearchFunction 
       const selectedKeyConfig = pool.getNextKey()
       if (!selectedKeyConfig) {
         throw new Error('No active Google PSE API keys available.')
+      }
+      const currentApiKey = selectedKeyConfig.key
+      try {
+        const results = await searchWeb({ ...sharedConfig, apiKey: currentApiKey }, query, options)
+        pool.markKeySuccess(currentApiKey)
+        return results
+      } catch (e) {
+        if (options.signal?.aborted || isAbortError(e)) throw e
+        pool.markKeyError(currentApiKey)
+        throw e
+      }
+    }
+
+    if (provider === 'youcom') {
+      if (!runtimeConfig.webSearchApiKey?.trim()) {
+        return searchWeb({ ...sharedConfig, apiKey: undefined }, query, options)
+      }
+      // You.com works keyless; when keys are configured, rotate them like
+      // the other keyed providers (comma-separated NUXT_WEB_SEARCH_API_KEY).
+      const pool = getOrCreateApiKeyPool(
+        youcomApiKeyPool,
+        (next) => {
+          youcomApiKeyPool = next
+        },
+        'youcom',
+        runtimeConfig,
+      )
+      const selectedKeyConfig = pool.getNextKey()
+      if (!selectedKeyConfig) {
+        throw new Error('No active You.com API keys available.')
       }
       const currentApiKey = selectedKeyConfig.key
       try {
