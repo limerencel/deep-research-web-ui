@@ -343,19 +343,19 @@ async function searchWithYoucom(
     const webResults = data.results?.web ?? []
     const newsResults = data.results?.news ?? []
 
-    return [...webResults, ...newsResults]
-      .map((r) => {
-        const content = [r.description, ...(r.snippets ?? [])].filter(Boolean).join('\n').trim()
-        if (!r.url || !content) return undefined
-        return {
+    return [...webResults, ...newsResults].flatMap<WebSearchResult>((r) => {
+      const content = [r.description, ...(r.snippets ?? [])].filter(Boolean).join('\n').trim()
+      if (!r.url || !content) return []
+      return [
+        {
           content,
-          sourceType: 'search-result' as const,
+          sourceType: 'search-result',
           url: r.url,
           title: r.title,
           publishedAt: r.page_age,
-        }
-      })
-      .filter((r): r is WebSearchResult => !!r)
+        },
+      ]
+    })
   } catch (error: unknown) {
     if (options.signal?.aborted || isAbortError(error)) throw error
     console.error('You.com search failed:', error)

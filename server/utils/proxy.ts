@@ -19,7 +19,7 @@
  *
  * Never logs raw proxy URLs (credentials). Use {@link redactProxyUrl}.
  */
-import axios, { isAxiosError } from 'axios'
+import axios, { AxiosHeaders, isAxiosError } from 'axios'
 import { Readable } from 'node:stream'
 import { ProxyAgent, fetch as undiciFetch } from 'undici'
 
@@ -249,7 +249,7 @@ function requestHeaders(
   return out
 }
 
-async function normalizeAxiosBody(body: BodyInit | null | undefined): unknown {
+async function normalizeAxiosBody(body: BodyInit | null | undefined): Promise<unknown> {
   if (body == null) return undefined
   if (
     typeof body === 'string' ||
@@ -264,12 +264,16 @@ async function normalizeAxiosBody(body: BodyInit | null | undefined): unknown {
   if (ArrayBuffer.isView(body)) {
     return Buffer.from(body.buffer, body.byteOffset, body.byteLength)
   }
-  if (typeof (body as ReadableStream).getReader === 'function') {
-    return Buffer.from(await new Response(body as ReadableStream).arrayBuffer())
+  const stream = body as unknown as {
+    getReader?: unknown
+    pipe?: unknown
   }
-  if (typeof (body as NodeJS.ReadableStream).pipe === 'function') {
+  if (typeof stream.getReader === 'function') {
+    return Buffer.from(await new Response(body).arrayBuffer())
+  }
+  if (typeof stream.pipe === 'function') {
     const chunks: Buffer[] = []
-    for await (const chunk of body as AsyncIterable<Buffer | string>) {
+    for await (const chunk of body as unknown as AsyncIterable<Buffer | string>) {
       chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : Buffer.from(chunk))
     }
     return Buffer.concat(chunks)
@@ -315,14 +319,12 @@ async function axiosProxyFetch(
       },
     })
     const headers = new Headers()
-    const rawHeaders = response.headers?.toJSON?.() as Record<string, unknown> | undefined
-    if (rawHeaders) {
-      for (const [key, value] of Object.entries(rawHeaders)) {
-        if (Array.isArray(value)) {
-          for (const item of value) headers.append(key, String(item))
-        } else if (value != null) {
-          headers.append(key, String(value))
-        }
+    const rawHeaders = AxiosHeaders.from(response.headers as unknown as AxiosHeaders).toJSON()
+    for (const [key, value] of Object.entries(rawHeaders)) {
+      if (Array.isArray(value)) {
+        for (const item of value) headers.append(key, item)
+      } else {
+        headers.append(key, value)
       }
     }
     return new Response(Readable.toWeb(response.data as Readable) as ReadableStream, {
@@ -368,10 +370,10 @@ async function socksProxyFetch(
   init?: RequestInit,
 ): Promise<Response> {
   try {
-    return await undiciFetch(
+    return (await undiciFetch(
       input as never,
       { ...(init as Record<string, unknown>), dispatcher: socksDispatcher(proxy) } as never,
-    )
+    )) as unknown as Response
   } catch (error) {
     if (
       (init?.signal as AbortSignal | undefined)?.aborted ||
