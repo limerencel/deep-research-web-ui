@@ -12,6 +12,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { isAbortError } from '~~/shared/utils/abort'
 import { researchRequestSchema } from '~~/shared/utils/research-input'
+import { getServerProxyFetch, proxyEnvFromRuntimeConfig } from '~~/server/utils/proxy'
 
 // --- ApiKeyPool with File-based State Persistence ---
 
@@ -164,6 +165,7 @@ export default defineEventHandler(async (event) => {
     apiBase: runtimeConfig.aiApiBase,
     model: runtimeConfig.public.aiModel,
     contextSize: runtimeConfig.public.aiContextSize,
+    fetch: getServerProxyFetch(proxyEnvFromRuntimeConfig(runtimeConfig)),
   }
 
   // Create server-side web search function
@@ -269,6 +271,7 @@ function getOrCreateApiKeyPool(
 }
 
 export function createServerWebSearch(runtimeConfig: RuntimeConfig): WebSearchFunction {
+  const proxyFetch = getServerProxyFetch(proxyEnvFromRuntimeConfig(runtimeConfig))
   const search: WebSearchFunction = async (query: string, options: WebSearchOptions) => {
     const provider = runtimeConfig.public.webSearchProvider as ConfigWebSearchProvider
     const sharedConfig = {
@@ -281,6 +284,7 @@ export function createServerWebSearch(runtimeConfig: RuntimeConfig): WebSearchFu
         | 'news'
         | 'finance'
         | undefined,
+      fetch: proxyFetch,
     }
 
     if (provider === 'firecrawl' || provider === 'crw') {

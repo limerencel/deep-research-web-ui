@@ -1,6 +1,7 @@
 import { generateFeedback } from '~~/lib/core/feedback'
 import type { ConfigAi } from '~~/shared/types/config'
 import { feedbackRequestSchema } from '~~/shared/utils/research-input'
+import { getServerProxyFetch, proxyEnvFromRuntimeConfig } from '~~/server/utils/proxy'
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
@@ -21,6 +22,7 @@ export default defineEventHandler(async (event) => {
     apiBase: runtimeConfig.aiApiBase,
     model: runtimeConfig.public.aiModel,
     contextSize: runtimeConfig.public.aiContextSize,
+    fetch: getServerProxyFetch(proxyEnvFromRuntimeConfig(runtimeConfig)),
   }
 
   // Set response headers for streaming

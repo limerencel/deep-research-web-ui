@@ -17,6 +17,11 @@ export interface ConfigAi {
   apiBase?: string
   model: string
   contextSize?: number
+  /**
+   * Custom fetch implementation (server-only). Used to route AI provider
+   * requests through an outbound proxy. Never set in the browser.
+   */
+  fetch?: typeof fetch
 }
 
 export interface ConfigWebSearch {

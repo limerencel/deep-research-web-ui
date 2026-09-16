@@ -38,6 +38,12 @@ export type WebSearchConfig = {
   googlePseId?: string
   tavilyAdvancedSearch?: boolean
   tavilySearchTopic?: 'general' | 'news' | 'finance'
+  /**
+   * Custom fetch implementation (server-only). Used to route Google PSE /
+   * you.com requests through an outbound proxy. Tavily/Firecrawl SDKs
+   * (axios-based) pick up `HTTP(S)_PROXY` env instead. Never set in the browser.
+   */
+  fetch?: typeof fetch
 }
 
 const FIRECRAWL_DEFAULT_API_BASE = 'https://api.firecrawl.dev'
@@ -225,7 +231,8 @@ async function searchWithGooglePse(
   const apiUrl = `https://www.googleapis.com/customsearch/v1?${searchParams.toString()}`
 
   try {
-    const response = await fetch(apiUrl, { signal: options.signal })
+    const doFetch = config.fetch ?? fetch
+    const response = await doFetch(apiUrl, { signal: options.signal })
     const data = (await response.json()) as {
       items?: Array<{ title: string; link: string; snippet: string }>
       error?: { message?: string }
@@ -314,7 +321,8 @@ async function searchWithYoucom(
   if (usingKey) headers['X-API-Key'] = config.apiKey!
 
   try {
-    const response = await abortable(fetch(apiUrl, { headers }), options.signal)
+    const doFetch = config.fetch ?? fetch
+    const response = await abortable(doFetch(apiUrl, { headers }), options.signal)
     if (!response.ok) {
       let message = `HTTP ${response.status}`
       try {

@@ -4,6 +4,7 @@ import { getStreamErrorMessage } from '~~/shared/utils/stream-error'
 import { z } from 'zod'
 import { researchLearningSchema } from '~~/shared/utils/research-learning'
 import { reportRevisionSchema } from '~~/shared/utils/report-revision'
+import { getServerProxyFetch, proxyEnvFromRuntimeConfig } from '~~/server/utils/proxy'
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
@@ -32,6 +33,7 @@ export default defineEventHandler(async (event) => {
     apiBase: runtimeConfig.aiApiBase,
     model: runtimeConfig.public.aiModel,
     contextSize: runtimeConfig.public.aiContextSize,
+    fetch: getServerProxyFetch(proxyEnvFromRuntimeConfig(runtimeConfig)),
   }
 
   // Set response headers for streaming

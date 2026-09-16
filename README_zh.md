@@ -100,6 +100,8 @@ docker run -p 3000:3000 --name deep-research-web -d deep-research-web
 | `NUXT_AI_API_BASE` | AI 服务商基础 URL | - |
 | `NUXT_WEB_SEARCH_API_KEY` | 联网搜索 API 密钥 | - |
 | `NUXT_WEB_SEARCH_API_BASE` | 联网搜索基础 URL | - |
+| `NUXT_PROXY_URL` | 出站代理地址（http/https/socks5/socks5h） | - |
+| `NUXT_NO_PROXY` | 不走代理的主机 | `localhost,127.0.0.1,::1` |
 
 #### 公共配置（服务端模式）
 | 变量名 | 说明 | 默认值 |
@@ -131,6 +133,25 @@ docker run -p 3000:3000 --name deep-research-web -d deep-research-web
 - Ollama 默认 API Base 为 `http://localhost:11434/v1`。如果应用运行在 Docker 容器内，`localhost` 指向容器自身；若 Ollama 运行在宿主机或其他容器中，请将 `NUXT_AI_API_BASE` 设置为容器可访问的宿主机地址或 Docker 网络地址。
 - LiteLLM 默认 API Base 为 `http://localhost:4000/v1`。当代理未启用认证时，API 密钥可以留空；如果代理无法通过默认本地地址访问，请设置 `NUXT_AI_API_BASE`。
 - Requesty 默认 API Base 为 `https://router.requesty.ai/v1`，模型 ID 使用 `provider/model` 格式，例如 `openai/gpt-4o`。
+
+#### 出站代理（仅服务端模式）
+
+设置 `NUXT_PROXY_URL`，让服务端请求走代理：
+
+```bash
+NUXT_PROXY_URL=socks5h://user:pass@gate.example.com:7777
+NUXT_NO_PROXY=localhost,127.0.0.1,::1
+```
+
+- 支持 `http`、`https`、`socks5`、`socks5h`、`socks`。
+- `http(s)` 代理全覆盖：AI 服务商、Google PSE、you.com，以及 Tavily / Firecrawl / CRW SDK。
+- `socks*` 代理只覆盖 AI 服务商、Google PSE 和 you.com；Tavily / Firecrawl / CRW SDK（基于 axios）不支持 SOCKS，会直连——多数代理商同一网关的 `http://` 地址可用相同凭证，要全覆盖请用 `http://`。
+- `NUXT_NO_PROXY` 支持 `*`、精确主机和父域名（`example.com` 同时匹配 `api.example.com`）。本地 AI 网关（Ollama、LiteLLM）和自托管抓取服务靠默认值保持直连。
+- 未设置 `NUXT_PROXY_URL` 时，兼容标准的 `HTTP_PROXY` / `HTTPS_PROXY` / `NO_PROXY` 环境变量。
+- 日志中的代理密码会自动脱敏。
+- 客户端模式（浏览器）无法使用：浏览器没有 SOCKS 接口，请配置系统 / 浏览器代理。
+- 凭证中的特殊字符需 URL 编码（`%` 写成 `%25`、`@` 写成 `%40`、`:` 写成 `%3A`）。
+- `NUXT_PROXY_URL` 无效时服务端拒绝启动（fail-fast），不会静默直连。
 
 ---
 

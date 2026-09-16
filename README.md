@@ -120,6 +120,8 @@ docker run -p 3000:3000 --name deep-research-web -d deep-research-web
 | `NUXT_AI_API_BASE` | AI provider base URL | - |
 | `NUXT_WEB_SEARCH_API_KEY` | Web search API key | - |
 | `NUXT_WEB_SEARCH_API_BASE` | Web search base URL | - |
+| `NUXT_PROXY_URL` | Outbound proxy URL (http/https/socks5/socks5h) | - |
+| `NUXT_NO_PROXY` | Hosts bypassing the proxy | `localhost,127.0.0.1,::1` |
 
 #### Public Configuration (Server Mode)
 | Variable | Description | Default |
@@ -151,6 +153,25 @@ Notes:
 - Ollama uses `http://localhost:11434/v1` as the default API base. When running the app inside Docker, `localhost` refers to the container itself, so set `NUXT_AI_API_BASE` to a reachable host or Docker network address if Ollama runs outside the container.
 - LiteLLM uses `http://localhost:4000/v1` as the default API base. Its API key is optional when the proxy does not require authentication; set `NUXT_AI_API_BASE` when the proxy is not reachable at the default local address.
 - Requesty uses `https://router.requesty.ai/v1` as the default API base and expects model IDs in `provider/model` format, such as `openai/gpt-4o`.
+
+#### Outbound proxy (Server Mode only)
+
+Set `NUXT_PROXY_URL` to route server-side requests through a proxy:
+
+```bash
+NUXT_PROXY_URL=socks5h://user:pass@gate.example.com:7777
+NUXT_NO_PROXY=localhost,127.0.0.1,::1
+```
+
+- Supported schemes: `http`, `https`, `socks5`, `socks5h`, `socks`.
+- `http(s)` proxies cover everything: AI providers, Google PSE, you.com, and the Tavily / Firecrawl / CRW SDKs.
+- `socks*` proxies cover AI providers, Google PSE and you.com; the Tavily / Firecrawl / CRW SDKs (axios-based) cannot speak SOCKS and will connect directly — use the `http://` endpoint of the same proxy (same credentials on most providers) for full coverage.
+- `NUXT_NO_PROXY` accepts `*`, exact hosts and parent domains (`example.com` also matches `api.example.com`). Local AI gateways (Ollama, LiteLLM) and self-hosted scrapers stay direct via the default list.
+- Standard `HTTP_PROXY` / `HTTPS_PROXY` / `NO_PROXY` env vars are honored as fallback when `NUXT_PROXY_URL` is unset.
+- Proxy credentials are redacted in logs.
+- Client Mode (browser) cannot use this: browsers have no SOCKS API. Configure a system / browser proxy instead.
+- URL-encode special characters in credentials (`%` as `%25`, `@` as `%40`, `:` as `%3A`).
+- An invalid `NUXT_PROXY_URL` fails server startup (fail-fast) instead of silently going direct.
 
 ---
 

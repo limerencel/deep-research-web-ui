@@ -17,6 +17,7 @@ export function getLanguageModel(config: ConfigAi) {
     const openRouter = createOpenRouter({
       apiKey: config.apiKey,
       baseURL: apiBase,
+      fetch: config.fetch,
     })
     model = openRouter(config.model, {
       includeReasoning: true,
@@ -32,12 +33,14 @@ export function getLanguageModel(config: ConfigAi) {
     const deepSeek = createDeepSeek({
       apiKey: config.apiKey,
       baseURL: apiBase,
+      fetch: config.fetch,
     })
     model = deepSeek(config.model)
   } else {
     const openai = createOpenAI({
       apiKey: config.apiKey,
       baseURL: apiBase,
+      fetch: config.fetch,
     })
     model = openai(config.model)
   }
