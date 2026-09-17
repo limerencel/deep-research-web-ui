@@ -203,3 +203,7 @@ MIT 协议
 ## Star History
 
 [![Star History Chart](https://star-history.dera.page/svg?repos=AnotiaWang/deep-research-web-ui&type=Date)](https://star-history.dera.page/#AnotiaWang/deep-research-web-ui&Date)
+
+## 鸣谢
+
+本项目同时在 [AtomGit](https://atomgit.com/AnotiaWang/deep-research-web-ui) 托管（国内访问更稳定），感谢 AtomGit 提供托管服务。

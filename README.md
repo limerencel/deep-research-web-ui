@@ -225,3 +225,8 @@ MIT
 ## Star History
 
 [![Star History Chart](https://star-history.dera.page/svg?repos=AnotiaWang/deep-research-web-ui&type=Date)](https://star-history.dera.page/#AnotiaWang/deep-research-web-ui&Date)
+
+## Acknowledgements
+
+The project is also hosted on [AtomGit](https://atomgit.com/AnotiaWang/deep-research-web-ui), which is more accessible from mainland China. Thanks to AtomGit for the hosting.
+
