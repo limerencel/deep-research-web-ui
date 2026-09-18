@@ -44,6 +44,14 @@ Please give a 🌟 Star if you like this project!
 
 ---
 
+<a href="https://helodata.com?ref=deepresearchwebui" target="_blank">Helodata</a> provides global proxy infrastructure covering 195+ countries and regions, with 80M+ ethically sourced residential IPs. We offer Residential, ISP, Unlimited Residential, Mobile, and Datacenter proxies for reliable data access across AI, web scraping, and automation workflows. Sign up using the promo code **`DRWEB`** to enjoy an exclusive 10% discount!
+
+<a href="https://helodata.com?ref=deepresearchwebui" target="_blank">
+<img width="852" alt="Helodata" src="https://github.com/user-attachments/assets/2724bd11-b219-4166-b0a6-22e8a62c4da9" />
+</a>
+
+---
+
 ## How to use
 
 ### Inspect evidence and follow up
@@ -173,6 +181,26 @@ NUXT_NO_PROXY=localhost,127.0.0.1,::1
 - Client Mode (browser) cannot use this: browsers have no SOCKS API. Configure a system / browser proxy instead.
 - URL-encode special characters in credentials (`%` as `%25`, `@` as `%40`, `:` as `%3A`).
 - An invalid `NUXT_PROXY_URL` fails server startup (fail-fast) instead of silently going direct.
+
+#### Using a proxy (e.g. Helodata) with self-hosted deployments
+
+If your server needs geo-targeted or rotating egress IPs, run the deployment behind a standard HTTP/SOCKS5 proxy. Example with Helodata:
+
+```bash
+# Full coverage: AI + Google PSE + you.com + Tavily/Firecrawl SDKs
+NUXT_PROXY_URL="http://YOUR_HELODATA_USERNAME:YOUR_HELODATA_PASSWORD@gate.helodata.io:7777"
+# Or SOCKS5: AI + Google PSE + you.com
+# (Tavily/Firecrawl SDKs can't speak SOCKS and will connect directly)
+NUXT_PROXY_URL="socks5h://YOUR_HELODATA_USERNAME:YOUR_HELODATA_PASSWORD@gate.helodata.io:7777"
+docker run -p 3000:3000 \
+  -e NUXT_PUBLIC_SERVER_MODE=true \
+  -e NUXT_AI_API_KEY=your-ai-api-key \
+  -e NUXT_WEB_SEARCH_API_KEY=your-search-api-key \
+  -e NUXT_PROXY_URL="$NUXT_PROXY_URL" \
+  anotia/deep-research-web-ui:latest
+```
+
+Get credentials from your [Helodata](https://helodata.com?ref=deepresearchwebui2) dashboard. See [Helodata docs](https://docs.helodata.com/) for region / city / sticky-session username format. For proxy behavior details, see [Outbound proxy (Server Mode only)](#outbound-proxy-server-mode-only).
 
 ---
 
