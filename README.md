@@ -47,7 +47,7 @@ Please give a 🌟 Star if you like this project!
 <a href="https://helodata.com?ref=deepresearchwebui" target="_blank">Helodata</a> provides global proxy infrastructure covering 195+ countries and regions, with 80M+ ethically sourced residential IPs. We offer Residential, ISP, Unlimited Residential, Mobile, and Datacenter proxies for reliable data access across AI, web scraping, and automation workflows. Sign up using the promo code **`DRWEB`** to enjoy an exclusive 10% discount!
 
 <a href="https://helodata.com?ref=deepresearchwebui" target="_blank">
-<img width="852" alt="Helodata" src="https://github.com/user-attachments/assets/2724bd11-b219-4166-b0a6-22e8a62c4da9" />
+<img width="852" alt="Helodata" src="https://github.com/user-attachments/assets/886d4c52-b558-443c-8b78-c2d46b12f9fb" />
 </a>
 
 ---

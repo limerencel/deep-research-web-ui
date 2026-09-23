@@ -43,7 +43,7 @@ Deep Research Web 能把一个研究问题变成一份带引用的报告：自�
 <a href="https://helodata.com?ref=deepresearchwebui" target="_blank">Helodata</a> 提供全球代理基础设施，覆盖 195+ 国家和地区，拥有 8000 万+ 合规授权住宅 IP，并支持住宅、ISP、不限量住宅、移动及数据中心代理等，为 AI、爬虫与自动化应用提供稳定可靠的数据访问。注册使用优惠码 **`DRWEB`**，可享专属九折！
 
 <a href="https://helodata.com?ref=deepresearchwebui" target="_blank">
-<img width="852" alt="Helodata" src="https://github.com/user-attachments/assets/c8588092-8190-4c69-a488-8ce8d97e11d5" />
+<img width="852" alt="Helodata" src="https://github.com/user-attachments/assets/886d4c52-b558-443c-8b78-c2d46b12f9fb" />
 </a>
 
 ---
@@ -179,6 +179,26 @@ NUXT_NO_PROXY=localhost,127.0.0.1,::1
 - 客户端模式（浏览器）无法使用：浏览器没有 SOCKS 接口，请配置系统 / 浏览器代理。
 - 凭证中的特殊字符需 URL 编码（`%` 写成 `%25`、`@` 写成 `%40`、`:` 写成 `%3A`）。
 - `NUXT_PROXY_URL` 无效时服务端拒绝启动（fail-fast），不会静默直连。
+
+#### 自托管部署使用代理（例如 Helodata）
+
+如果服务器需要按地区出口或轮换出口 IP，可以把部署放在标准 HTTP/SOCKS5 代理后面。以 Helodata 为例：
+
+```bash
+# 全覆盖：AI + Google PSE + you.com + Tavily/Firecrawl SDK
+NUXT_PROXY_URL="http://YOUR_HELODATA_USERNAME:YOUR_HELODATA_PASSWORD@gate.helodata.io:7777"
+# 或 SOCKS5：AI + Google PSE + you.com
+# （Tavily/Firecrawl SDK 不支持 SOCKS，会直连）
+NUXT_PROXY_URL="socks5h://YOUR_HELODATA_USERNAME:YOUR_HELODATA_PASSWORD@gate.helodata.io:7777"
+docker run -p 3000:3000 \
+  -e NUXT_PUBLIC_SERVER_MODE=true \
+  -e NUXT_AI_API_KEY=你的AI-API密钥 \
+  -e NUXT_WEB_SEARCH_API_KEY=你的搜索API密钥 \
+  -e NUXT_PROXY_URL="$NUXT_PROXY_URL" \
+  anotia/deep-research-web-ui:latest
+```
+
+凭证请到 [Helodata](https://helodata.com?ref=deepresearchwebui2) 控制台获取。地区、城市和粘性会话的用户名格式见 [Helodata 文档](https://docs.helodata.com/)。代理行为细节见 [出站代理（仅服务端模式）](#出站代理仅服务端模式)。
 
 ---
 
