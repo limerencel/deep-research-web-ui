@@ -10,6 +10,7 @@
   import NodeDetail from './NodeDetail.vue'
   import { isChildNode, isParentNode, isRootNode } from '~/utils/tree-node'
   import { UCard, UModal, UButton } from '#components'
+  import type { Ref } from 'vue'
   import { useServerMode } from '~/composables/useServerMode'
   import { collectResearchResult } from '~/utils/research-result'
   import { resolveResearchRetryQuery } from '~/utils/research-retry'
@@ -82,8 +83,10 @@
   // The edges and nodes of SearchFlow.vue
   // These are not managed inside SearchFlow, because here we need to switch between
   // two SearchFlows in fullscreen and non-fullscreen mode
-  const flowNodes = ref<SearchNode[]>([flowRootNode()])
-  const flowEdges = ref<SearchEdge[]>([])
+  // Cast instead of ref<T>(): UnwrapRef strips private class members from
+  // Vue Flow's DOM attribute types (e.g. motion-v's DragControls).
+  const flowNodes = ref([flowRootNode()]) as Ref<SearchNode[]>
+  const flowEdges = ref([]) as Ref<SearchEdge[]>
 
   const selectedNode = computed(() => {
     if (selectedNodeId.value) {

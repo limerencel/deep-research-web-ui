@@ -102,10 +102,12 @@ export default defineNuxtConfig({
     // websocket job watcher, which the browser `search()` path never uses.
     // Alias it to an empty stub in the *client* build so Rollup can bundle the
     // SDK without trying to resolve undici. Server (Nitro) keeps the real one.
+    // Deprecated hook: Nuxt 5 shares one Vite config across environments, so this
+    // must move to a plugin using `applyToEnvironment` when upgrading.
+    // The config is typed Readonly; Nuxt always creates the nested plugins/resolve.
     'vite:extendConfig'(config, { isClient }) {
       if (isClient) {
-        config.plugins ||= []
-        config.plugins.push({
+        config.plugins?.push({
           name: 'tavily-tokenizer',
           enforce: 'pre',
           resolveId(source, importer) {
@@ -114,10 +116,11 @@ export default defineNuxtConfig({
             }
           },
         })
-        config.resolve ||= {}
-        config.resolve.alias = {
-          ...config.resolve.alias,
-          undici: fileURLToPath(new URL('./build/undici-browser-stub.ts', import.meta.url)),
+        if (config.resolve) {
+          config.resolve.alias = {
+            ...config.resolve.alias,
+            undici: fileURLToPath(new URL('./build/undici-browser-stub.ts', import.meta.url)),
+          }
         }
       }
     },
