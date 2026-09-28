@@ -186,6 +186,15 @@
     "searchLanguage": "Zoektaal",
     "configNotice": "Huidige configuratie is ingesteld door de serverbeheerder. Neem contact op met de beheerder voor wijzigingen."
   },
+  "accessPassword": {
+    "title": "Toegangswachtwoord",
+    "description": "Deze server vereist een wachtwoord voordat je onderzoek kunt uitvoeren.",
+    "label": "Wachtwoord",
+    "submit": "Ontgrendelen",
+    "invalid": "Onjuist wachtwoord.",
+    "success": "Toegang verleend",
+    "denied": "De server heeft het verzoek geweigerd: toegangswachtwoord ontbreekt of is onjuist."
+  },
   "history": {
     "title": "Geschiedenis",
     "export": "Exporteren",

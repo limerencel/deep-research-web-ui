@@ -48,6 +48,8 @@ export default defineNuxtConfig({
     aiApiBase: process.env.NUXT_AI_API_BASE,
     webSearchApiKey: process.env.NUXT_WEB_SEARCH_API_KEY,
     webSearchApiBase: process.env.NUXT_WEB_SEARCH_API_BASE,
+    // Optional password guarding the /api routes (server mode)
+    accessPassword: process.env.NUXT_ACCESS_PASSWORD,
     // Outbound proxy (server-only). Supports http/https/socks5/socks5h/socks,
     // e.g. NUXT_PROXY_URL=socks5h://user:pass@gate.example.com:7777
     proxyUrl: process.env.NUXT_PROXY_URL,

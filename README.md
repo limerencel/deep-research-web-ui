@@ -124,6 +124,7 @@ docker run -p 3000:3000 --name deep-research-web -d deep-research-web
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `NUXT_PUBLIC_SERVER_MODE` | Enable server mode | `false` |
+| `NUXT_ACCESS_PASSWORD` | Optional password required to call the `/api` routes | - |
 | `NUXT_AI_API_KEY` | AI provider API key | - |
 | `NUXT_AI_API_BASE` | AI provider base URL | - |
 | `NUXT_WEB_SEARCH_API_KEY` | Web search API key | - |
@@ -153,6 +154,7 @@ docker run -p 3000:3000 --name deep-research-web -d deep-research-web
 
 Notes:
 
+- When `NUXT_ACCESS_PASSWORD` is set, visitors must enter it before running research. Strongly recommended for publicly reachable server-mode deployments, since the server's API keys are otherwise usable by anyone.
 - `NUXT_WEB_SEARCH_API_KEY` supports comma-separated keys for Tavily, Google PSE and Serply, for example `key1,key2,key3`.
 - Google PSE requires both `NUXT_WEB_SEARCH_API_KEY` and `NUXT_PUBLIC_GOOGLE_PSE_ID`.
 - Firecrawl self-hosted deployments can set `NUXT_WEB_SEARCH_API_BASE`.

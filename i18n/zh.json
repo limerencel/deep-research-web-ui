@@ -190,6 +190,15 @@
     "searchLanguage": "搜索语言",
     "configNotice": "当前配置由服务器管理员设置，如需修改请联系管理员。"
   },
+  "accessPassword": {
+    "title": "访问密码",
+    "description": "该服务器需要输入访问密码后才能使用研究功能。",
+    "label": "密码",
+    "submit": "解锁",
+    "invalid": "密码错误。",
+    "success": "验证成功",
+    "denied": "服务器拒绝了请求：未提供访问密码或密码错误。"
+  },
   "history": {
     "title": "历史记录",
     "export": "导出",

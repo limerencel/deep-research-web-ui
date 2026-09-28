@@ -66,6 +66,7 @@
       </div>
     </UContainer>
     <AutoUpdateToast />
+    <AccessPasswordModal v-if="isServerMode" />
   </div>
 </template>
 

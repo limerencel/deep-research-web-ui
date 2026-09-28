@@ -190,6 +190,15 @@
     "searchLanguage": "검색 언어",
     "configNotice": "현재 설정은 서버 관리자가 지정한 것입니다. 변경이 필요하면 관리자에게 문의하세요."
   },
+  "accessPassword": {
+    "title": "접근 비밀번호",
+    "description": "이 서버에서 리서치를 실행하려면 비밀번호가 필요합니다.",
+    "label": "비밀번호",
+    "submit": "잠금 해제",
+    "invalid": "비밀번호가 올바르지 않습니다.",
+    "success": "인증되었습니다",
+    "denied": "서버가 요청을 거부했습니다: 접근 비밀번호가 없거나 올바르지 않습니다."
+  },
   "history": {
     "title": "기록",
     "export": "내보내기",

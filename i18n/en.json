@@ -190,6 +190,15 @@
     "searchLanguage": "Search Language",
     "configNotice": "Current configuration is set by the server administrator. Contact the administrator to make changes."
   },
+  "accessPassword": {
+    "title": "Access password",
+    "description": "This server requires a password before running research.",
+    "label": "Password",
+    "submit": "Unlock",
+    "invalid": "Incorrect password.",
+    "success": "Access granted",
+    "denied": "The server rejected the request: access password missing or incorrect."
+  },
   "history": {
     "title": "History",
     "export": "Export",

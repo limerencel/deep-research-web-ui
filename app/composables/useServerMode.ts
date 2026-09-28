@@ -29,6 +29,26 @@ async function* parseServerOperationStream(response: Response) {
 export function useServerMode() {
   const runtimeConfig = useRuntimeConfig()
   const isServerMode = computed(() => runtimeConfig.public.serverMode)
+  const access = useAccessPassword()
+  const { t } = useI18n()
+
+  async function postOperation(url: string, body: unknown, signal?: AbortSignal) {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...access.headers(),
+      },
+      body: JSON.stringify(body),
+      signal,
+    })
+    if (response.status === 401) {
+      await response.body?.cancel().catch(() => {})
+      access.promptOpen.value = true
+      throw new AccessDeniedError(t('accessPassword.denied'))
+    }
+    return parseServerOperationStream(response)
+  }
 
   // Server-side implementations
   const serverDeepResearch = async (params: {
@@ -64,12 +84,9 @@ export function useServerMode() {
       signal,
     } = params
 
-    const response = await fetch('/api/research', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    const stream = await postOperation(
+      '/api/research',
+      {
         query,
         originalQuery,
         breadth,
@@ -82,11 +99,11 @@ export function useServerMode() {
         currentDepth,
         nodeId,
         retryNode,
-      }),
+      },
       signal,
-    })
+    )
 
-    for await (const step of parseServerOperationStream(response)) {
+    for await (const step of stream) {
       onProgress(step)
     }
   }
@@ -101,21 +118,13 @@ export function useServerMode() {
   }) {
     const { query, language, numQuestions, suggestResearchMode, signal } = params
 
-    const response = await fetch('/api/feedback', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query,
-        language,
-        numQuestions,
-        suggestResearchMode,
-      }),
+    const stream = await postOperation(
+      '/api/feedback',
+      { query, language, numQuestions, suggestResearchMode },
       signal,
-    })
+    )
 
-    for await (const step of parseServerOperationStream(response)) {
+    for await (const step of stream) {
       yield step
     }
   }
@@ -123,22 +132,12 @@ export function useServerMode() {
   const serverWriteFinalReport = async (params: WriteFinalReportParams) => {
     const { prompt, learnings, language, signal, revision } = params
 
-    const response = await fetch('/api/report', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        prompt,
-        learnings,
-        language,
-        revision,
-      }),
-      signal,
-    })
-
     return {
-      fullStream: parseServerOperationStream(response),
+      fullStream: await postOperation(
+        '/api/report',
+        { prompt, learnings, language, revision },
+        signal,
+      ),
     }
   }
 

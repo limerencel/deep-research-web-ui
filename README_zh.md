@@ -122,6 +122,7 @@ docker run -p 3000:3000 --name deep-research-web -d deep-research-web
 | 变量名 | 说明 | 默认值 |
 |--------|------|--------|
 | `NUXT_PUBLIC_SERVER_MODE` | 启用服务端模式 | `false` |
+| `NUXT_ACCESS_PASSWORD` | 可选，调用 `/api` 接口所需的访问密码 | - |
 | `NUXT_AI_API_KEY` | AI 服务商 API 密钥 | - |
 | `NUXT_AI_API_BASE` | AI 服务商基础 URL | - |
 | `NUXT_WEB_SEARCH_API_KEY` | 联网搜索 API 密钥 | - |
@@ -151,6 +152,7 @@ docker run -p 3000:3000 --name deep-research-web -d deep-research-web
 
 说明：
 
+- 设置 `NUXT_ACCESS_PASSWORD` 后，访问者需要先输入密码才能进行研究。公网可访问的服务端模式部署强烈建议设置，否则任何人都能使用服务器配置的 API 密钥。
 - `NUXT_WEB_SEARCH_API_KEY` 支持为 Tavily、Google PSE 和 Serply 配置逗号分隔的多个密钥，例如 `key1,key2,key3`。
 - Google PSE 需要同时配置 `NUXT_WEB_SEARCH_API_KEY` 和 `NUXT_PUBLIC_GOOGLE_PSE_ID`。
 - Firecrawl 自部署可以通过 `NUXT_WEB_SEARCH_API_BASE` 配置接口地址。
