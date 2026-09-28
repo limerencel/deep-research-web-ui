@@ -88,6 +88,29 @@
     "depthHelp": "Number of iterations.",
     "breadth": "Breadth",
     "breadthHelp": "Number of searches in the first iteration. The search width of each iteration is half of the previous one.",
+    "preset": "Research mode",
+    "presetHelp": "More thorough modes search more and take longer, using more API quota.",
+    "presets": {
+      "auto": {
+        "label": "Auto",
+        "description": "AI recommends a mode from your topic. You can change it before searching."
+      },
+      "quick": {
+        "label": "Quick",
+        "description": "Simple fact lookups. {breadth} wide × {depth} deep, up to ~{count} searches."
+      },
+      "standard": {
+        "label": "Standard",
+        "description": "Most topics. {breadth} wide × {depth} deep, up to ~{count} searches."
+      },
+      "deep": {
+        "label": "Deep",
+        "description": "Complex or broad topics. {breadth} wide × {depth} deep, up to ~{count} searches."
+      }
+    },
+    "advanced": "Advanced settings",
+    "estimatedSearches": "With these settings, up to ~{count} searches will be planned. Research may stop early once the goal is covered.",
+    "autoModeHint": "In Auto mode, AI recommends breadth and depth when asking its questions. Editing breadth or depth switches to manual.",
     "required": "This field is required.",
     "integerRange": "Enter a whole number from {min} to {max}.",
     "start": "Start Research",
@@ -100,7 +123,11 @@
     "submit": "Submit Answer",
     "continue": "Continue Research",
     "error": "Error getting feedback: {0}",
-    "noQuestions": "Your query is already clear enough. No follow-up questions are needed — you can continue."
+    "noQuestions": "Your query is already clear enough. No follow-up questions are needed — you can continue.",
+    "researchMode": "Research mode",
+    "suggestedMode": "AI suggests \"{mode}\": ",
+    "noSuggestedMode": "AI gave no recommendation, so a default mode was selected.",
+    "modeEstimate": "Up to ~{count} searches."
   },
   "webBrowsing": {
     "readingSource": "Reading source pages…",

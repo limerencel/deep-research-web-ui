@@ -12,6 +12,7 @@ import type {
   ResearchResult,
   ResearchSession,
 } from '~~/shared/types/research-session'
+import type { ResearchDepthSettings } from '~~/shared/utils/research-input'
 
 export type ResearchSessionEvent =
   | {
@@ -42,6 +43,8 @@ export type ResearchSessionEvent =
       sessionId: string
       operationId: string
       feedback: ResearchFeedbackResult[]
+      /** Breadth/depth confirmed after feedback; overrides the submitted form values */
+      settings?: ResearchDepthSettings
       at: string
     }
   | {
@@ -259,6 +262,10 @@ export function researchSessionReducer(
           operationId: event.operationId,
           status: 'running',
           phase: 'research',
+          input:
+            event.settings && state.input
+              ? snapshotInput({ ...state.input, ...event.settings })
+              : state.input,
           feedback: snapshotFeedback(event.feedback),
           result: { learnings: [] },
           report: '',
@@ -468,7 +475,7 @@ export function useResearchSession(options: UseResearchSessionOptions = {}) {
     })
   }
 
-  function beginResearch(feedback: ResearchFeedbackResult[]) {
+  function beginResearch(feedback: ResearchFeedbackResult[], settings?: ResearchDepthSettings) {
     const previous = state.value
     const operationId = createId()
     commit({
@@ -476,6 +483,7 @@ export function useResearchSession(options: UseResearchSessionOptions = {}) {
       sessionId: previous.id,
       operationId,
       feedback,
+      settings,
       at: now(),
     })
     return state.value.operationId === operationId ? currentLease() : undefined

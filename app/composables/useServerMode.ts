@@ -95,10 +95,11 @@ export function useServerMode() {
     query: string
     language: string
     numQuestions: number
+    suggestResearchMode?: boolean
     aiConfig: ConfigAi
     signal?: AbortSignal
   }) {
-    const { query, language, numQuestions, signal } = params
+    const { query, language, numQuestions, suggestResearchMode, signal } = params
 
     const response = await fetch('/api/feedback', {
       method: 'POST',
@@ -109,6 +110,7 @@ export function useServerMode() {
         query,
         language,
         numQuestions,
+        suggestResearchMode,
       }),
       signal,
     })

@@ -88,6 +88,29 @@
     "depthHelp": "반복(iteration) 횟수입니다.",
     "breadth": "너비(Breadth)",
     "breadthHelp": "첫 번째 반복에서의 검색 횟수입니다. 각 반복의 검색 너비는 이전 반복의 절반입니다.",
+    "preset": "리서치 모드",
+    "presetHelp": "심층 모드일수록 검색 횟수와 소요 시간이 늘어나고 API 사용량도 많아집니다.",
+    "presets": {
+      "auto": {
+        "label": "자동",
+        "description": "AI가 주제에 맞는 모드를 추천합니다. 검색 전에 변경할 수 있습니다."
+      },
+      "quick": {
+        "label": "빠르게",
+        "description": "간단한 사실 확인에 적합합니다. 너비 {breadth} × 깊이 {depth}, 최대 약 {count}회 검색."
+      },
+      "standard": {
+        "label": "표준",
+        "description": "대부분의 주제에 적합합니다. 너비 {breadth} × 깊이 {depth}, 최대 약 {count}회 검색."
+      },
+      "deep": {
+        "label": "심층",
+        "description": "복잡하거나 넓은 주제에 적합합니다. 너비 {breadth} × 깊이 {depth}, 최대 약 {count}회 검색."
+      }
+    },
+    "advanced": "고급 설정",
+    "estimatedSearches": "현재 설정으로 최대 약 {count}회의 검색이 계획됩니다. 목표가 충분히 다뤄지면 더 일찍 끝날 수 있습니다.",
+    "autoModeHint": "자동 모드에서는 AI가 질문할 때 너비와 깊이를 추천합니다. 너비나 깊이를 직접 수정하면 수동 설정으로 전환됩니다.",
     "required": "필수 입력 항목입니다.",
     "integerRange": "{min}에서 {max} 사이의 정수를 입력하세요.",
     "start": "연구 시작",
@@ -100,7 +123,11 @@
     "submit": "답변 제출",
     "continue": "연구 계속하기",
     "error": "피드백을 가져오는 중 오류 발생: {0}",
-    "noQuestions": "모델이 후속 질문을 반환하지 않았습니다."
+    "noQuestions": "모델이 후속 질문을 반환하지 않았습니다.",
+    "researchMode": "리서치 모드",
+    "suggestedMode": "AI 추천 \"{mode}\": ",
+    "noSuggestedMode": "AI 추천이 없어 기본 모드를 선택했습니다.",
+    "modeEstimate": "최대 약 {count}회 검색."
   },
   "webBrowsing": {
     "readingSource": "출처 본문 읽는 중…",

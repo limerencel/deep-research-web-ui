@@ -88,6 +88,29 @@
     "depthHelp": "联网搜索的迭代轮数。",
     "breadth": "研究广度 (Breadth)",
     "breadthHelp": "第一次迭代中的搜索次数。后续每轮迭代的搜索次数为上一轮的一半。",
+    "preset": "研究模式",
+    "presetHelp": "越深入的模式搜索次数越多、耗时越长，也会消耗更多 API 额度。",
+    "presets": {
+      "auto": {
+        "label": "自动",
+        "description": "由 AI 根据主题推荐档位，开始搜索前可以修改。"
+      },
+      "quick": {
+        "label": "快速",
+        "description": "适合简单的事实查询。广度 {breadth} × 深度 {depth}，最多约 {count} 次搜索。"
+      },
+      "standard": {
+        "label": "标准",
+        "description": "适合大多数主题。广度 {breadth} × 深度 {depth}，最多约 {count} 次搜索。"
+      },
+      "deep": {
+        "label": "深入",
+        "description": "适合复杂或宽泛的主题。广度 {breadth} × 深度 {depth}，最多约 {count} 次搜索。"
+      }
+    },
+    "advanced": "高级设置",
+    "estimatedSearches": "按当前设置，最多规划约 {count} 次搜索。研究目标已充分覆盖时可能提前结束。",
+    "autoModeHint": "自动模式下，AI 会在提问时推荐研究广度和深度。手动修改广度或深度会切换为自定义设置。",
     "required": "此项为必填项。",
     "integerRange": "请输入 {min} 到 {max} 之间的整数。",
     "start": "开始研究",
@@ -100,7 +123,11 @@
     "submit": "提交回答",
     "continue": "继续研究",
     "noQuestions": "问题已经足够清晰，无需补充追问，可以直接继续。",
-    "error": "获取反馈失败：{0}"
+    "error": "获取反馈失败：{0}",
+    "researchMode": "研究模式",
+    "suggestedMode": "AI 建议「{mode}」：",
+    "noSuggestedMode": "AI 未给出建议，已选择默认档位。",
+    "modeEstimate": "最多约 {count} 次搜索。"
   },
   "webBrowsing": {
     "readingSource": "正在读取来源正文…",
