@@ -2,7 +2,6 @@ export type ConfigAiProvider =
   | 'openai-compatible'
   | 'siliconflow'
   | '302-ai'
-  | 'infiniai'
   | 'openrouter'
   | 'requesty'
   | 'deepseek'

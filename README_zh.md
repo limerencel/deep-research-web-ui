@@ -17,7 +17,7 @@ Deep Research Web 能把一个研究问题变成一份带引用的报告：自�
 
 当前支持的供应商：
 
-- AI 服务：OpenAI compatible, SiliconFlow, InfiniAI, DeepSeek, OpenRouter, Requesty, Ollama, LiteLLM 等
+- AI 服务：OpenAI compatible, SiliconFlow, DeepSeek, OpenRouter, Requesty, Ollama, LiteLLM 等
 - 联网搜索服务：Tavily (每月 1000 次免费搜索), Firecrawl（支持自部署）, fastCRW（支持自部署）, Google PSE, You.com（免密钥可用）, Serply
 
 喜欢本项目请点 ⭐ 收藏！
@@ -147,7 +147,7 @@ docker run -p 3000:3000 --name deep-research-web -d deep-research-web
 
 | 类型 | 支持的值 |
 |------|----------|
-| AI 服务商 | `openai-compatible`, `siliconflow`, `302-ai`, `infiniai`, `openrouter`, `requesty`, `deepseek`, `ollama`, `litellm` |
+| AI 服务商 | `openai-compatible`, `siliconflow`, `302-ai`, `openrouter`, `requesty`, `deepseek`, `ollama`, `litellm` |
 | 联网搜索服务商 | `tavily`, `firecrawl`, `crw`, `google-pse`, `youcom`, `serply` |
 
 说明：

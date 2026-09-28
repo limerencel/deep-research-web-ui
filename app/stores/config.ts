@@ -49,6 +49,13 @@ export const useConfigStore = defineStore('config', () => {
     },
   } satisfies Config)
 
+  // InfiniAI was removed as a provider. Its API is OpenAI-compatible,
+  // so migrate saved configs instead of leaving them broken.
+  if ((localConfig.value.ai.provider as string) === 'infiniai') {
+    localConfig.value.ai.provider = 'openai-compatible'
+    localConfig.value.ai.apiBase ||= 'https://cloud.infini-ai.com/maas/v1'
+  }
+
   const serverConfigRef = computed(
     () =>
       ({

@@ -28,10 +28,6 @@
           "title": "SiliconFlow",
           "description": "가입 시 ¥14 무료 크레딧을 제공합니다. {0}에서 API 키를 발급받으세요."
         },
-        "infiniai": {
-          "title": "InfiniAI",
-          "description": "가입 후 별도 제한 없이 풀 파워 DeepSeek R1 등 추론 가속 모델을 사용할 수 있습니다. {0}에 로그인한 후 API 키를 생성하세요."
-        },
         "302-ai": {
           "title": "302.AI",
           "description": "가입 시 $1 무료 크레딧을 제공합니다. {0}에서 API 키를 발급받으세요."
