@@ -6,7 +6,7 @@ import {
   canRetryResearchFromSession,
   createInitialResearchSession,
   researchSessionReducer,
-} from '../app/composables/useResearchSession.ts'
+} from '../app/utils/research-session-reducer.ts'
 
 const at = '2026-07-15T00:00:00.000Z'
 

@@ -1,12 +1,12 @@
 import type { SearchConstraints } from '~~/shared/utils/search-plan'
 import { deepResearch as clientDeepResearch } from '~~/lib/core/deep-research'
 import { generateFeedback as clientGenerateFeedback } from '~~/lib/core/feedback'
-import { writeFinalReport as clientWriteFinalReport } from '~~/lib/core/deep-research'
+import { writeFinalReport as clientWriteFinalReport } from '~~/lib/core/report'
 import type { ResearchStep } from '~~/lib/core/deep-research'
 import { OperationTimeoutError } from '~~/shared/utils/abort'
 import { parseSSEStream } from '~/utils/sse'
 import type { ResearchLearning } from '~~/shared/types/research-session'
-import type { WriteFinalReportParams } from '~~/lib/core/deep-research'
+import type { WriteFinalReportParams } from '~~/lib/core/report'
 
 function throwIfTimeoutFrame(value: unknown) {
   if (!value || typeof value !== 'object') return

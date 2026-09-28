@@ -1,12 +1,11 @@
 <script setup lang="ts">
   import type { SearchAssessment } from '~~/shared/utils/search-assessment'
   import type { SearchPlan, SearchLimitation } from '~~/shared/utils/search-plan'
-  import {
-    deepResearch,
-    type PartialProcessedSearchResult,
-    type ProcessedSearchResult,
-    type ResearchStep,
-  } from '~~/lib/core/deep-research'
+  import { deepResearch, type ResearchStep } from '~~/lib/core/deep-research'
+  import type {
+    PartialProcessedSearchResult,
+    ProcessedSearchResult,
+  } from '~~/lib/core/extract-learnings'
   import SearchFlow, { type SearchNode, type SearchEdge } from './SearchFlow.vue'
   import NodeDetail from './NodeDetail.vue'
   import { isChildNode, isParentNode, isRootNode } from '~/utils/tree-node'
