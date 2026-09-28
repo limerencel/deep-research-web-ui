@@ -133,10 +133,7 @@ export function createServerWebSearch(runtimeConfig: RuntimeConfig): WebSearchFu
       googlePseId: runtimeConfig.public.googlePseId,
       tavilyAdvancedSearch: runtimeConfig.public.tavilyAdvancedSearch,
       tavilySearchTopic: runtimeConfig.public.tavilySearchTopic as
-        | 'general'
-        | 'news'
-        | 'finance'
-        | undefined,
+        'general' | 'news' | 'finance' | undefined,
       fetch: proxyFetch,
     }
 
